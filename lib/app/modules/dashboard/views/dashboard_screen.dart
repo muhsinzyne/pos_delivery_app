@@ -70,7 +70,9 @@ class DashboardScreen extends GetView<DashboardScreenController> {
                                       text: 'sales'.tr,
                                       color: AppColors.primary,
                                       textColor: Colors.white,
-                                      onPress: () {},
+                                      onPress: () {
+                                        controller.actionGoSales();
+                                      },
                                       width: Get.size.width / 2.5,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
