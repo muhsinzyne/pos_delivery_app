@@ -80,7 +80,9 @@ class DashboardScreen extends GetView<DashboardScreenController> {
                                       text: 'returns'.tr,
                                       color: AppColors.secondary,
                                       textColor: Colors.white,
-                                      onPress: () {},
+                                      onPress: () {
+                                        controller.actionGoReturns();
+                                      },
                                       width: Get.size.width / 2.5,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -93,7 +95,9 @@ class DashboardScreen extends GetView<DashboardScreenController> {
                                       text: 'sales_history'.tr,
                                       color: AppColors.secondary,
                                       textColor: Colors.white,
-                                      onPress: () {},
+                                      onPress: () {
+                                        controller.actionGoSalesHistory();
+                                      },
                                       width: Get.size.width / 2.5,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
@@ -101,7 +105,9 @@ class DashboardScreen extends GetView<DashboardScreenController> {
                                       text: 'payments'.tr,
                                       color: AppColors.greenIconColor,
                                       textColor: Colors.white,
-                                      onPress: () {},
+                                      onPress: () {
+                                        controller.actionGoPayments();
+                                      },
                                       width: Get.size.width / 2.5,
                                       borderRadius: BorderRadius.circular(10),
                                     ),
