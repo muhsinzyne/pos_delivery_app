@@ -9,6 +9,8 @@ import 'package:posdelivery/app/modules/dashboard/bindings/dashboard_screen_bind
 import 'package:posdelivery/app/modules/dashboard/views/dashboard_screen.dart';
 import 'package:posdelivery/app/modules/my-account/bindings/my_account_binding.dart';
 import 'package:posdelivery/app/modules/my-account/views/my_account_view.dart';
+import 'package:posdelivery/app/modules/pos/find-customer/bindings/find_customer_screen_binding.dart';
+import 'package:posdelivery/app/modules/pos/find-customer/views/find_customer_screen.dart';
 import 'package:posdelivery/app/modules/settings/change-language/bindings/change_language_binding.dart';
 import 'package:posdelivery/app/modules/settings/change-language/views/change_language_view.dart';
 import 'package:posdelivery/app/modules/splash/bindings/splash_screen_binding.dart';
@@ -56,6 +58,11 @@ class AppPages {
       name: _Paths.licence,
       page: () => LicenceScreen(),
       binding: LicenceBinding(),
+    ),
+    GetPage(
+      name: _Paths.findCustomer,
+      page: () => FindCustomerScreen(),
+      binding: FindCustomerScreenBinding(),
     ),
   ];
 }

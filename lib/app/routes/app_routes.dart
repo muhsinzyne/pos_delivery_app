@@ -11,6 +11,7 @@ abstract class Routes {
   static const changeLanguage = _Paths.changeLanguage;
   static const myAccount = _Paths.myAccount;
   static const licence = _Paths.licence;
+  static const findCustomer = _Paths.findCustomer;
 }
 
 abstract class _Paths {
@@ -21,4 +22,5 @@ abstract class _Paths {
   static const changeLanguage = '/change-language';
   static const myAccount = '/my-account';
   static const licence = '/licence';
+  static const findCustomer = '/find-customer';
 }
