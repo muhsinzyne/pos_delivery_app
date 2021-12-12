@@ -4,8 +4,10 @@ import 'package:posdelivery/app/modules/dashboard/contracts.dart';
 import 'package:posdelivery/app/modules/splash/contracts.dart';
 import 'package:posdelivery/models/requests/auth/check_otp_request.dart';
 import 'package:posdelivery/models/requests/auth/login_request.dart';
+import 'package:posdelivery/models/requests/auth/validate_licence.dart';
 import 'package:posdelivery/models/response/auth/check_otp_respose.dart';
 import 'package:posdelivery/models/response/auth/employee_info.dart';
+import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
 import 'package:posdelivery/models/response/auth/login_response.dart';
 import 'package:posdelivery/models/status_codes.dart';
 import 'package:posdelivery/models/url.dart';
@@ -17,12 +19,17 @@ class AuthDataProvider extends BaseDataProvider {
   late ISplashScreenController homeCtrl;
   late IDashboardScreenController dashCtrl;
   late IBaseGetXController bCtrl;
+  late ILicenceScreenController lCtrl;
 
   set callBack(IBaseGetXController controller) {
     bCtrl = controller;
   }
 
   /// page call back seters
+  set licenceValidationCallback(ILicenceScreenController controller) {
+    lCtrl = controller;
+  }
+
   set otpVerificationCallback(IOtpVerificationController controller) {
     otpVerCtrl = controller;
   }
@@ -153,6 +160,20 @@ class AuthDataProvider extends BaseDataProvider {
       if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
         loginCtrl.onLoginError();
       }
+    });
+  }
+
+  validateLicence(ValidateLicenceRequest validateLicenceRequest) {
+    final obs = network.post(NetworkURL.validateLicence, data: validateLicenceRequest.dummy()).asStream();
+    obs.listen((data) {
+      try {
+        LicenceValidationResponse lvR = LicenceValidationResponse.fromJSON(data.data);
+      } on Exception {
+        print("exception");
+      }
+    }, onError: (err) {
+      print("error fired");
+      if (err.response?.statusCode == StatusCodes.status400BadRequest) {}
     });
   }
 }

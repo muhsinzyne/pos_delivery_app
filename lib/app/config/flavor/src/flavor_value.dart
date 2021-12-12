@@ -5,6 +5,7 @@ class FlavorValues {
   final String api;
   final String cdn;
   final bool isTest;
+  final String licenceServer;
 
   FlavorValues({
     this.oneSignalAppId = '',
@@ -13,5 +14,6 @@ class FlavorValues {
     this.api = '',
     this.cdn = '',
     this.isTest = false,
+    this.licenceServer = '',
   });
 }

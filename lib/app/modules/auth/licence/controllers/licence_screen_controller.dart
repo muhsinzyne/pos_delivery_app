@@ -4,6 +4,7 @@ import 'package:posdelivery/app/modules/auth/contracts.dart';
 import 'package:posdelivery/app/routes/app_pages.dart';
 import 'package:posdelivery/controllers/base_controller.dart';
 import 'package:posdelivery/models/constants.dart';
+import 'package:posdelivery/models/requests/auth/validate_licence.dart';
 
 class LicenceScreenController extends BaseGetXController implements ILicenceScreenController {
   RxBool continuePermission = RxBool(false);
@@ -12,6 +13,7 @@ class LicenceScreenController extends BaseGetXController implements ILicenceScre
   @override
   void onInit() {
     // when licence code reaches max limit
+    authDataProvider.licenceValidationCallback = this;
     ever(licenceCode, (_) {
       if (licenceCode.value.length == Constants.licenceCodeLength) {
         continuePermission.value = true;
@@ -25,9 +27,11 @@ class LicenceScreenController extends BaseGetXController implements ILicenceScre
   void actionLicenceValidate() async {
     isLoading.value = true;
     print(licenceCode.value);
-    await Future.delayed(Duration(seconds: 1));
-    isLoading.value = false;
-    onLicenceVerificationDone();
+    final ValidateLicenceRequest vLReq = ValidateLicenceRequest();
+    authDataProvider.validateLicence(vLReq);
+    // await Future.delayed(Duration(seconds: 1));
+    // isLoading.value = false;
+    // onLicenceVerificationDone();
   }
 
   @override
