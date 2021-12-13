@@ -1,4 +1,5 @@
 import 'package:posdelivery/models/response/auth/check_otp_respose.dart';
+import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
 
 abstract class ILoginController {
   void onLoginDone();
@@ -11,6 +12,6 @@ abstract class IOtpVerificationController {
 }
 
 abstract class ILicenceScreenController {
-  void onLicenceVerificationDone();
+  void onLicenceVerificationDone(LicenceValidationResponse lvR);
   void onLicenceVerificationError();
 }

@@ -1,7 +1,13 @@
 class Constants {
   static const none = '';
+  static const ios = 'ios';
+  static const android = 'android';
+  static const macOs = 'mac_os';
+  static const windows = 'windows';
+  static const linux = 'linux';
   static const isLastLoggedIn = 'is_last_logged_in';
   static const authToken = 'auth_token';
+  static const appServer = 'app_server';
   static const pagePadding = 20.0;
   static const pagePadding15 = 15.0;
   static const pagePadding10 = 10.0;
@@ -25,4 +31,6 @@ class Constants {
   static const appLogoPath = 'assets/images/fatoorah.png';
   static const logoHeroTag = 'logo-hero-tag';
   static const licenceCodeLength = 10;
+
+  static const Duration smallDuration = Duration(milliseconds: 300);
 }

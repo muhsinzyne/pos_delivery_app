@@ -61,4 +61,36 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
     //   onLoadTokenInvalid();
     // }
   }
+
+  @override
+  void validateLicence() async {
+    if (localStorage.isAppServer) {
+      onValidLicence();
+    } else {
+      onInvalidLicence();
+    }
+  }
+
+  @override
+  void onInvalidLicence() async {
+    appService.appServer = Constants.none;
+    if (appService.isLastLoggedIn) {
+      Get.snackbar(
+        'error'.tr,
+        'your_licence_got_invalid_please_activate_your_licence'.tr,
+        colorText: Colors.white,
+        backgroundColor: Colors.red,
+        snackPosition: SnackPosition.BOTTOM,
+      );
+      appService.isLastLoggedIn = false;
+    }
+    await Future.delayed(Constants.smallDuration);
+    Get.offAllNamed(Routes.licence);
+  }
+
+  @override
+  void onValidLicence() async {
+    await Future.delayed(Constants.smallDuration);
+    Get.offAllNamed(Routes.login);
+  }
 }

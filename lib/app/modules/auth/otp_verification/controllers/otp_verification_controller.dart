@@ -43,7 +43,7 @@ class OtpVerificationController extends BaseGetXController implements IOtpVerifi
   }
 
   _validateToken(CheckOtpRequest otpRequest) {
-    authDataProvider.checkOtp(otpRequest);
+    ///authDataProvider.checkOtp(otpRequest);
   }
 
   _triggerInvalidOtp() {

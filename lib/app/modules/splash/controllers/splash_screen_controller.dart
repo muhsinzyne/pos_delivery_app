@@ -5,8 +5,7 @@ class SplashScreenController extends BaseGetXController implements ISplashScreen
   @override
   void onInit() {
     authDataProvider.homeCallBack = this;
-    print("validate login calling from splash HomeController");
-    super.validateLogin();
+    super.validateLicence();
     super.onInit();
   }
 }

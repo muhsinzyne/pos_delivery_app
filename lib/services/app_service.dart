@@ -12,15 +12,16 @@ class AppService extends BaseGetXService {
   LocalStorage localStorage = Get.find<LocalStorage>();
   final _authToken = RxString('');
   final _isLastLoggedIn = RxBool(false);
-
+  final _appServer = RxString('');
   final List<AppLocale> languageList = AppLocale.appLocalList;
 
   @override
   void onInit() {
     dependencies();
     super.onInit();
-    ever(_authToken, (_) => print(_authToken.value));
-    ever(_isLastLoggedIn, (_) => print("is logged in updated -  ${_isLastLoggedIn.value}"));
+    //ever(_authToken, (_) => print(_authToken.value));
+    ever(_appServer, (_) => print(_appServer.value));
+    //ever(_isLastLoggedIn, (_) => print("is logged in updated -  ${_isLastLoggedIn.value}"));
   }
 
   @override
@@ -47,8 +48,15 @@ class AppService extends BaseGetXService {
     localStorage.setString(Constants.authToken, value);
   }
 
+  set appServer(String value) {
+    _appServer.value = value;
+    localStorage.setString(Constants.appServer, value);
+  }
+
   _preloadValues() {
     final String? tempToken = localStorage.getString(Constants.authToken);
+    final String? tempAppServer = localStorage.getString(Constants.appServer);
     authToken = tempToken.toString();
+    appServer = tempAppServer.toString();
   }
 }

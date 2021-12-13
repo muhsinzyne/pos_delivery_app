@@ -2,10 +2,8 @@ import 'package:posdelivery/app/modules/auth/contracts.dart';
 import 'package:posdelivery/app/modules/contracts.dart';
 import 'package:posdelivery/app/modules/dashboard/contracts.dart';
 import 'package:posdelivery/app/modules/splash/contracts.dart';
-import 'package:posdelivery/models/requests/auth/check_otp_request.dart';
 import 'package:posdelivery/models/requests/auth/login_request.dart';
 import 'package:posdelivery/models/requests/auth/validate_licence.dart';
-import 'package:posdelivery/models/response/auth/check_otp_respose.dart';
 import 'package:posdelivery/models/response/auth/employee_info.dart';
 import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
 import 'package:posdelivery/models/response/auth/login_response.dart';
@@ -106,46 +104,6 @@ class AuthDataProvider extends BaseDataProvider {
     );
   }
 
-  // /// otp verification call
-  // getEmpInfo() {
-  //   final obs = network.get(NetworkURL.getEmpInfo).asStream();
-  //   obs.listen(
-  //     (data) {
-  //       try {
-  //         EmployeeInfo employeeInfo = EmployeeInfo.fromJSON(data.data);
-  //         //otpVerCtrl.onVerificationDone(checkOtpResponse);
-  //       } on Exception catch (e) {
-  //         //otpVerCtrl.onVerificationError();
-  //       }
-  //     },
-  //     onError: (err) {
-  //       if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
-  //         //otpVerCtrl.onVerificationError();
-  //       }
-  //     },
-  //   );
-  // }
-
-  /// otp verification call
-  checkOtp(CheckOtpRequest checkOtpRequest) {
-    final obs = network.post(NetworkURL.checkOtp, data: checkOtpRequest.toJson()).asStream();
-    obs.listen(
-      (data) {
-        try {
-          CheckOtpResponse checkOtpResponse = CheckOtpResponse.fromJSON(data.data);
-          otpVerCtrl.onVerificationDone(checkOtpResponse);
-        } on Exception {
-          otpVerCtrl.onVerificationError();
-        }
-      },
-      onError: (err) {
-        if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
-          otpVerCtrl.onVerificationError();
-        }
-      },
-    );
-  }
-
   /// login call
   login(LoginRequest loginRequest) {
     final obs = network.post(NetworkURL.login, data: loginRequest.toJson()).asStream();
@@ -164,10 +122,11 @@ class AuthDataProvider extends BaseDataProvider {
   }
 
   validateLicence(ValidateLicenceRequest validateLicenceRequest) {
-    final obs = network.post(NetworkURL.validateLicence, data: validateLicenceRequest.dummy()).asStream();
+    final obs = network.post(NetworkURL.validateLicence, data: validateLicenceRequest.toJson()).asStream();
     obs.listen((data) {
       try {
         LicenceValidationResponse lvR = LicenceValidationResponse.fromJSON(data.data);
+        lCtrl.onLicenceVerificationDone(lvR);
       } on Exception {
         print("exception");
       }

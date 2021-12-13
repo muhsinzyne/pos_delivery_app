@@ -76,4 +76,14 @@ class LocalStorage extends GetxService {
     }
     return false;
   }
+
+  bool get isAppServer {
+    //prefs?.setString(Constants.appServer, Constants.none);
+    String? appServer = prefs?.getString(Constants.appServer);
+    if (appServer == Constants.none || appServer == null) {
+      return false;
+    } else {
+      return true;
+    }
+  }
 }

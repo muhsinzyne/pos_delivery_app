@@ -5,6 +5,7 @@ import 'package:posdelivery/app/routes/app_pages.dart';
 import 'package:posdelivery/controllers/base_controller.dart';
 import 'package:posdelivery/models/constants.dart';
 import 'package:posdelivery/models/requests/auth/validate_licence.dart';
+import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
 
 class LicenceScreenController extends BaseGetXController implements ILicenceScreenController {
   RxBool continuePermission = RxBool(false);
@@ -26,8 +27,12 @@ class LicenceScreenController extends BaseGetXController implements ILicenceScre
 
   void actionLicenceValidate() async {
     isLoading.value = true;
-    print(licenceCode.value);
+    //print(licenceCode.value);
     final ValidateLicenceRequest vLReq = ValidateLicenceRequest();
+    vLReq.licenceCode = licenceCode.value;
+    vLReq.appMode = Constants.ios;
+    vLReq.appId = '3424-3-4sdsdsd-343434';
+    print(vLReq.toJson());
     authDataProvider.validateLicence(vLReq);
     // await Future.delayed(Duration(seconds: 1));
     // isLoading.value = false;
@@ -35,19 +40,20 @@ class LicenceScreenController extends BaseGetXController implements ILicenceScre
   }
 
   @override
-  void onLicenceVerificationDone() async {
-    //TODO: set the api cache logic in local
-    //TODO set a value in shared preferece parameter to skip this page asked again
-
-    Get.snackbar(
-      'verified'.tr,
-      'licence_verified_please_login_your_account'.tr,
-      colorText: Colors.white,
-      backgroundColor: Colors.green,
-      snackPosition: SnackPosition.TOP,
-    );
-    await Future.delayed(Duration(seconds: 1));
-    Get.offAllNamed(Routes.login);
+  void onLicenceVerificationDone(LicenceValidationResponse lvR) async {
+    if (lvR.api != null) {
+      print(lvR);
+      appService.appServer = lvR.api.toString();
+      Get.snackbar(
+        'verified'.tr,
+        'licence_verified_please_login_your_account'.tr,
+        colorText: Colors.white,
+        backgroundColor: Colors.green,
+        snackPosition: SnackPosition.TOP,
+      );
+      await Future.delayed(Constants.smallDuration);
+      Get.offAllNamed(Routes.login);
+    }
   }
 
   @override
