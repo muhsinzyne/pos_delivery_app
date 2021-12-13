@@ -11,4 +11,7 @@ class FlavorConfig {
 
   FlavorConfig._initialize(this.flavor, this.flavorValues);
   static FlavorConfig get instance => _instance ?? FlavorConfig(flavor: Flavor.development, flavorValues: AppFlavors.devFlavor);
+  set update(FlavorConfig flInstance) {
+    _instance = flInstance;
+  }
 }

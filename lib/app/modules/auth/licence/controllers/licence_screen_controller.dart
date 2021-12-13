@@ -6,6 +6,7 @@ import 'package:posdelivery/controllers/base_controller.dart';
 import 'package:posdelivery/models/constants.dart';
 import 'package:posdelivery/models/requests/auth/validate_licence.dart';
 import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
+import 'package:posdelivery/models/response/error_message.dart';
 
 class LicenceScreenController extends BaseGetXController implements ILicenceScreenController {
   RxBool continuePermission = RxBool(false);
@@ -57,10 +58,11 @@ class LicenceScreenController extends BaseGetXController implements ILicenceScre
   }
 
   @override
-  void onLicenceVerificationError() {
+  void onLicenceVerificationError(ErrorMessage errMsg) {
+    isLoading.value = false;
     Get.snackbar(
       'error'.tr,
-      'licence_could_not_be_verified'.tr,
+      errMsg.message.toString(),
       colorText: Colors.white,
       backgroundColor: Colors.red,
       snackPosition: SnackPosition.TOP,

@@ -33,4 +33,5 @@ class Constants {
   static const licenceCodeLength = 10;
 
   static const Duration smallDuration = Duration(milliseconds: 300);
+  static const Duration oneSecDuration  = Duration(seconds: 1);
 }

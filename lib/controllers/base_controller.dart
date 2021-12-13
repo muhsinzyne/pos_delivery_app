@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:posdelivery/app/config/flavor/flavor_service.dart';
 import 'package:posdelivery/app/modules/contracts.dart';
 import 'package:posdelivery/app/routes/app_pages.dart';
 import 'package:posdelivery/controllers/app_controller.dart';
@@ -37,7 +38,7 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
       );
       appService.isLastLoggedIn = false;
     }
-    await Future.delayed(Duration(seconds: 1));
+    await Future.delayed(Constants.smallDuration);
     Get.offAllNamed(Routes.login);
   }
 
@@ -50,16 +51,23 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
 
   @override
   void validateLogin() async {
-    await Future.delayed(Duration(seconds: 1));
-    Get.toNamed(Routes.licence);
-    //Get.offAllNamed(Routes.licence);
-    // print("validation called from super");
-    // if (localStorage.isAuthToken) {
-    //   authDataProvider.getEmpInfoForHome();
-    // } else {
-    //   print("here triggered");
-    //   onLoadTokenInvalid();
-    // }
+    if (localStorage.isAuthToken) {
+      validateToken();
+    } else {
+      onLoadTokenInvalid();
+    }
+  }
+
+  @override
+  void validateToken() {
+    //TODO token validate api integrartion
+    onTokenValid();
+  }
+
+  @override
+  void onTokenValid() async {
+    await Future.delayed(Constants.smallDuration);
+    Get.offNamed(Routes.dashboard);
   }
 
   @override
@@ -90,7 +98,8 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
 
   @override
   void onValidLicence() async {
-    await Future.delayed(Constants.smallDuration);
-    Get.offAllNamed(Routes.login);
+    String? apiUrl = localStorage.getString(Constants.appServer);
+    FlavorConfig.instance.flavorValues.api = apiUrl.toString();
+    validateLogin();
   }
 }

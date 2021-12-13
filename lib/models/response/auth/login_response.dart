@@ -1,11 +1,19 @@
+import 'package:posdelivery/models/response/auth/user_data.dart';
+
 class LoginResponse {
-  String? token;
+  bool? status;
+  String? message;
+  UserData? data;
   LoginResponse();
   LoginResponse.fromJSON(Map<String, dynamic> parsedJson) {
-    token = parsedJson['token'];
+    data = parsedJson['data'] == null ? null : UserData.fromJSON(parsedJson['data']);
+    message = parsedJson['message'];
+    status = parsedJson['status'];
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{
-        'token': token,
+        'message': message,
+        'status': status,
+        'data': data,
       };
 }

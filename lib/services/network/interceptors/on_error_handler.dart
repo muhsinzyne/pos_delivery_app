@@ -23,6 +23,7 @@ class OnErrorHandler extends Interceptor {
           super.onError(err, handler);
           break;
         case StatusCodes.status400BadRequest:
+          super.onError(err, handler);
           break;
 
         case StatusCodes.status500InternalServerError:

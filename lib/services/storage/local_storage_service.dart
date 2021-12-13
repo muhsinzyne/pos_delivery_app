@@ -70,17 +70,17 @@ class LocalStorage extends GetxService {
   }
 
   bool get isAuthToken {
-    String? token = prefs?.getString(Constants.authToken);
-    if (token != null) {
-      return true;
+    String? token = getString(Constants.authToken);
+    if (token == null || token == Constants.none) {
+      return false;
     }
-    return false;
+    return true;
   }
 
   bool get isAppServer {
     //prefs?.setString(Constants.appServer, Constants.none);
-    String? appServer = prefs?.getString(Constants.appServer);
-    if (appServer == Constants.none || appServer == null) {
+    String? appServer = getString(Constants.appServer);
+    if (appServer == null || appServer == Constants.none) {
       return false;
     } else {
       return true;

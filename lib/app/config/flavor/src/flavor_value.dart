@@ -1,11 +1,11 @@
 class FlavorValues {
-  final String name;
-  final String oneSignalAppId;
-  final String oneSignalRestApiKey;
-  final String api;
-  final String cdn;
-  final bool isTest;
-  final String licenceServer;
+  String name;
+  String oneSignalAppId;
+  String oneSignalRestApiKey;
+  String api;
+  String cdn;
+  bool isTest;
+  String licenceServer;
 
   FlavorValues({
     this.oneSignalAppId = '',

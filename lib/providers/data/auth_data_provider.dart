@@ -1,3 +1,6 @@
+import 'dart:convert';
+
+import 'package:get/get_utils/src/extensions/internacionalization.dart';
 import 'package:posdelivery/app/modules/auth/contracts.dart';
 import 'package:posdelivery/app/modules/contracts.dart';
 import 'package:posdelivery/app/modules/dashboard/contracts.dart';
@@ -7,6 +10,7 @@ import 'package:posdelivery/models/requests/auth/validate_licence.dart';
 import 'package:posdelivery/models/response/auth/employee_info.dart';
 import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
 import 'package:posdelivery/models/response/auth/login_response.dart';
+import 'package:posdelivery/models/response/error_message.dart';
 import 'package:posdelivery/models/status_codes.dart';
 import 'package:posdelivery/models/url.dart';
 import 'package:posdelivery/providers/data/base_data_provider.dart';
@@ -106,19 +110,32 @@ class AuthDataProvider extends BaseDataProvider {
 
   /// login call
   login(LoginRequest loginRequest) {
+    print("thi request");
+    print(NetworkURL.login);
     final obs = network.post(NetworkURL.login, data: loginRequest.toJson()).asStream();
-    obs.listen((data) {
-      try {
-        LoginResponse loginResponse = LoginResponse.fromJSON(data.data);
-        loginCtrl.onLoginDone();
-      } on Exception {
-        loginCtrl.onLoginError();
-      }
-    }, onError: (err) {
-      if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
-        loginCtrl.onLoginError();
-      }
-    });
+    obs.listen(
+      (data) {
+        try {
+          LoginResponse loginResponse = LoginResponse.fromJSON(data.data);
+          if (loginResponse.data?.token != null) {
+            loginCtrl.onLoginDone(loginResponse);
+          } else {
+            // token null exception
+            loginCtrl.onLoginError();
+          }
+        } on Exception {
+          loginCtrl.onLoginError();
+        }
+      },
+      onError: (err) {
+        if (err.response?.statusCode == StatusCodes.status400BadRequest) {
+          loginCtrl.onLoginError();
+        }
+        if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
+          loginCtrl.onLoginError();
+        }
+      },
+    );
   }
 
   validateLicence(ValidateLicenceRequest validateLicenceRequest) {
@@ -128,11 +145,15 @@ class AuthDataProvider extends BaseDataProvider {
         LicenceValidationResponse lvR = LicenceValidationResponse.fromJSON(data.data);
         lCtrl.onLicenceVerificationDone(lvR);
       } on Exception {
-        print("exception");
+        final ErrorMessage errMsg = ErrorMessage();
+        errMsg.message = 'licence_could_not_be_verified'.tr;
+        lCtrl.onLicenceVerificationError(errMsg);
       }
     }, onError: (err) {
-      print("error fired");
-      if (err.response?.statusCode == StatusCodes.status400BadRequest) {}
+      final ErrorMessage errMsg = ErrorMessage.fromJSON(jsonDecode(err.response.toString()));
+      if (err.response?.statusCode == StatusCodes.status400BadRequest) {
+        lCtrl.onLicenceVerificationError(errMsg);
+      }
     });
   }
 }

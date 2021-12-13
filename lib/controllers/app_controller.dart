@@ -44,11 +44,12 @@ class AppController extends GetxController {
   }
 
   void appBarLogout() async {
-    UINotification.showLoading();
     _closeDrawer();
+    UINotification.showLoading();
     appService.authToken = Constants.none;
-    Get.offNamed(Routes.login);
+    await Future.delayed(Constants.oneSecDuration);
     UINotification.hideLoading();
+    Get.offNamed(Routes.login);
   }
 
   void actionChangeLanguage() {
