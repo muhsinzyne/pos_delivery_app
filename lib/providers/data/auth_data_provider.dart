@@ -7,9 +7,9 @@ import 'package:posdelivery/app/modules/dashboard/contracts.dart';
 import 'package:posdelivery/app/modules/splash/contracts.dart';
 import 'package:posdelivery/models/requests/auth/login_request.dart';
 import 'package:posdelivery/models/requests/auth/validate_licence.dart';
-import 'package:posdelivery/models/response/auth/employee_info.dart';
 import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
 import 'package:posdelivery/models/response/auth/login_response.dart';
+import 'package:posdelivery/models/response/auth/my_info_response.dart';
 import 'package:posdelivery/models/response/error_message.dart';
 import 'package:posdelivery/models/status_codes.dart';
 import 'package:posdelivery/models/url.dart';
@@ -49,60 +49,42 @@ class AuthDataProvider extends BaseDataProvider {
   }
 
   // validation for splash
-  getEmpInfoForDashBoard() {
-    final obs = network.get(NetworkURL.getEmpInfo).asStream();
-    obs.listen(
-      (data) {
-        try {
-          EmployeeInfo employeeInfo = EmployeeInfo.fromJSON(data.data);
-          dashCtrl.onLoadTokenValid(employeeInfo);
-        } on Exception {
-          dashCtrl.onLoadTokenInvalid();
-        }
-      },
-      onError: (err) {
-        if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
-          dashCtrl.onLoadTokenInvalid();
-        }
-      },
-    );
-  }
 
-  // validation for splash
-  getEmpInfoForHome() {
-    final obs = network.get(NetworkURL.getEmpInfo).asStream();
-    obs.listen(
-      (data) {
-        try {
-          EmployeeInfo employeeInfo = EmployeeInfo.fromJSON(data.data);
-          homeCtrl.onLoadTokenValid(employeeInfo);
-        } on Exception {
-          homeCtrl.onLoadTokenInvalid();
-        }
-      },
-      onError: (err) {
-        if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
-          homeCtrl.onLoadTokenInvalid();
-        }
-      },
-    );
-  }
+  // // validation for splash
+  // getEmpInfo() {
+  //   final obs = network.get(NetworkURL.getEmpInfo).asStream();
+  //   obs.listen(
+  //     (data) {
+  //       try {
+  //         EmployeeInfo employeeInfo = EmployeeInfo.fromJSON(data.data);
+  //         bCtrl.onLoadTokenValid(employeeInfo);
+  //       } on Exception {
+  //         bCtrl.onLoadTokenInvalid();
+  //       }
+  //     },
+  //     onError: (err) {
+  //       if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
+  //         bCtrl.onLoadTokenInvalid();
+  //       }
+  //     },
+  //   );
+  // }
 
-  // validation for splash
-  getEmpInfo() {
-    final obs = network.get(NetworkURL.getEmpInfo).asStream();
+  getProfileInfo() {
+    final obs = network.get(NetworkURL.myInfo).asStream();
     obs.listen(
       (data) {
         try {
-          EmployeeInfo employeeInfo = EmployeeInfo.fromJSON(data.data);
-          bCtrl.onLoadTokenValid(employeeInfo);
-        } on Exception {
-          bCtrl.onLoadTokenInvalid();
+          MyInfoResponse myInfo = MyInfoResponse.fromJSON(data.data);
+          print(myInfo);
+        } on Exception catch (e) {
+          print(e);
+          //bCtrl.onLoadTokenInvalid();
         }
       },
       onError: (err) {
         if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
-          bCtrl.onLoadTokenInvalid();
+          //bCtrl.onLoadTokenInvalid();
         }
       },
     );
@@ -110,8 +92,6 @@ class AuthDataProvider extends BaseDataProvider {
 
   /// login call
   login(LoginRequest loginRequest) {
-    print("thi request");
-    print(NetworkURL.login);
     final obs = network.post(NetworkURL.login, data: loginRequest.toJson()).asStream();
     obs.listen(
       (data) {

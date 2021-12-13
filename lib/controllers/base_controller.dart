@@ -60,8 +60,8 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
 
   @override
   void validateToken() {
-    //TODO token validate api integrartion
-    onTokenValid();
+    authDataProvider.getProfileInfo();
+    //onTokenValid();
   }
 
   @override

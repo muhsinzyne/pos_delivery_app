@@ -5,6 +5,5 @@ class NetworkURL {
   static var validateLicence = FlavorConfig.instance.flavorValues.licenceServer;
   static var base = api + '/api/';
   static var login = base + 'login';
-  static var checkOtp = base + 'CheckOTP';
-  static var getEmpInfo = base + 'GetEmpInfo';
+  static var myInfo = base + 'users/my_info';
 }

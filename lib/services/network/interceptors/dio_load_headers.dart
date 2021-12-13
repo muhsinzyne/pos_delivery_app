@@ -17,6 +17,7 @@ class DioLoadHeaders extends Interceptor {
       options.headers = {
         Constants.authorization: "${Constants.bearer} ${appService.authToken}",
       };
+      print(options.headers);
     } else {}
     return handler.next(options);
   }

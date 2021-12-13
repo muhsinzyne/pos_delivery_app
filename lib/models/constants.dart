@@ -18,7 +18,7 @@ class Constants {
   static const apiConnectionTimeOut = 9000;
   static const apiReceiveTimeOut = 9000;
   static const authorization = 'Authorization';
-  static const bearer = 'bearer';
+  static const bearer = 'Bearer';
   static const commonSafeAreaTop = 120;
   static const otpLength = 4;
   static const retryRequestCount = 3;
@@ -33,5 +33,5 @@ class Constants {
   static const licenceCodeLength = 10;
 
   static const Duration smallDuration = Duration(milliseconds: 300);
-  static const Duration oneSecDuration  = Duration(seconds: 1);
+  static const Duration oneSecDuration = Duration(seconds: 1);
 }
