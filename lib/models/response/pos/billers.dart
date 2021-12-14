@@ -46,8 +46,33 @@ class Billers {
     awardPoints = parsedJson['award_points'];
     depositAmount = parsedJson['deposit_amount'];
     priceGroupId = parsedJson['price_group_id'];
+    priceGroupName = parsedJson['price_group_name'];
     gstNo = parsedJson['gst_no'];
   }
 
-  Map<String, dynamic> toJson() => <String, dynamic>{};
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'group_id': groupId,
+        'group_name': groupName,
+        'customer_group_id': customerGroupId,
+        'customer_group_name': customerGroupName,
+        'name': name,
+        'company': company,
+        'vat_no': vatNo,
+        'address': address,
+        'city': city,
+        'state': state,
+        'postal_code': postalCode,
+        'country': country,
+        'phone': phone,
+        'email': email,
+        'invoice_footer': invoiceFooter,
+        'payment_term': paymentTerm,
+        'logo': logo,
+        'award_points': awardPoints,
+        'deposit_amount': depositAmount,
+        'price_group_id': priceGroupId,
+        'price_group_name': priceGroupName,
+        'gst_no': gstNo
+      };
 }

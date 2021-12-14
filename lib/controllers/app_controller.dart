@@ -1,5 +1,7 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:posdelivery/app/config/flavor/flavor_service.dart';
 import 'package:posdelivery/app/routes/app_pages.dart';
 import 'package:posdelivery/app/ui/components/ui_notification.dart';
 import 'package:posdelivery/models/app_languages.dart';
@@ -10,7 +12,7 @@ class AppController extends GetxController {
   late final AppService appService;
 
   GlobalKey<ScaffoldState> appDrawerKey = GlobalKey<ScaffoldState>();
-
+  AudioPlayer audioPlayer = AudioPlayer();
   @override
   void onInit() {
     appService = Get.find<AppService>();
@@ -60,6 +62,18 @@ class AppController extends GetxController {
   void actionMyAccount() {
     _closeDrawer();
     Get.toNamed(Routes.myAccount);
+  }
+
+  void playSound(PlaySound type) {
+    switch (type) {
+      case PlaySound.success:
+        print("hello");
+        //audioPlayer.play('assets/sounds/walmart_scanner.mp3', isLocal: true);
+        break;
+      default:
+        //FlutterBeep.beep(FlutterBeep.ScreenLocked);
+        break;
+    }
   }
 
   demo() {}

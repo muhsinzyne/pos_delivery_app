@@ -1,5 +1,6 @@
 class Constants {
   static const none = '';
+  static const stringNull = 'null';
   static const ios = 'ios';
   static const android = 'android';
   static const macOs = 'mac_os';
@@ -8,6 +9,9 @@ class Constants {
   static const isLastLoggedIn = 'is_last_logged_in';
   static const authToken = 'auth_token';
   static const appServer = 'app_server';
+  static const appPrefix = 'app_prefix';
+  static const smaUploadPath = '/assets/uploads';
+  static const avatarLocation = 'avatars/';
   static const pagePadding = 20.0;
   static const pagePadding15 = 15.0;
   static const pagePadding10 = 10.0;

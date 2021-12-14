@@ -1,5 +1,6 @@
 import 'package:get/get.dart';
 import 'package:package_info/package_info.dart';
+import 'package:posdelivery/app/config/flavor/flavor_service.dart';
 import 'package:posdelivery/models/app_languages.dart';
 import 'package:posdelivery/models/constants.dart';
 import 'package:posdelivery/models/response/auth/employee_info.dart';
@@ -10,11 +11,15 @@ import 'package:posdelivery/services/storage/local_storage_service.dart';
 class AppService extends BaseGetXService {
   PackageInfo? packageInfo;
   late EmployeeInfo employeeInfo;
-  late MyInfoResponse myInfoResponse;
+  MyInfoResponse myInfoResponse = MyInfoResponse();
   LocalStorage localStorage = Get.find<LocalStorage>();
   final _authToken = RxString('');
   final _isLastLoggedIn = RxBool(false);
   final _appServer = RxString('');
+  final _appPrefix = RxString('');
+  final _qrCodeResult = RxString('');
+  final isScanned = RxBool(false);
+
   final List<AppLocale> languageList = AppLocale.appLocalList;
 
   @override
@@ -39,6 +44,15 @@ class AppService extends BaseGetXService {
 
   String get authToken => _authToken.value;
   bool get isLastLoggedIn => _isLastLoggedIn.value;
+  String get qrCodeResult => _qrCodeResult.value;
+  String get cdnUrl => FlavorConfig.instance.flavorValues.api + Constants.smaUploadPath + '/';
+  String get saasCdnUrl =>
+      FlavorConfig.instance.flavorValues.api + Constants.smaUploadPath + '/' + FlavorConfig.instance.flavorValues.appPrefix + '/';
+
+  set qrCodeResult(String value) {
+    _qrCodeResult.value = value;
+    isScanned.value = true;
+  }
 
   set isLastLoggedIn(bool value) {
     _isLastLoggedIn.value = value;
@@ -55,10 +69,17 @@ class AppService extends BaseGetXService {
     localStorage.setString(Constants.appServer, value);
   }
 
+  set appPrefix(String value) {
+    _appPrefix.value = value;
+    localStorage.setString(Constants.appPrefix, value);
+  }
+
   _preloadValues() {
     final String? tempToken = localStorage.getString(Constants.authToken);
     final String? tempAppServer = localStorage.getString(Constants.appServer);
+    final String? tempAppPrefix = localStorage.getString(Constants.appPrefix);
     authToken = tempToken.toString();
     appServer = tempAppServer.toString();
+    appPrefix = tempAppPrefix.toString();
   }
 }

@@ -1,3 +1,4 @@
+import 'package:posdelivery/models/constants.dart';
 import 'package:posdelivery/models/response/pos/billers.dart';
 import 'package:posdelivery/models/response/pos/warehouse.dart';
 
@@ -29,6 +30,24 @@ class MyInfoResponse {
   List<Billers>? billers;
   List<Warehouses>? warehouses;
 
+  Warehouses? get cWareHouse {
+    if (warehouseId == null || warehouseId == Constants.stringNull) {
+      warehouseId = warehouses?.first.id;
+      return warehouses?.first;
+    } else {
+      return warehouses?.firstWhere((element) => element.id == warehouseId);
+    }
+  }
+
+  Billers? get cBiller {
+    if (billerId == null || billerId == Constants.stringNull) {
+      billerId = billers?.first.id;
+      return billers?.first;
+    } else {
+      return billers?.firstWhere((element) => element.id == billerId);
+    }
+  }
+
   MyInfoResponse();
   MyInfoResponse.fromJSON(Map<String, dynamic> parsedJson) {
     id = parsedJson['id'];
@@ -59,7 +78,37 @@ class MyInfoResponse {
         .map((e) => e == null ? null : Billers.fromJSON(e as Map<String, dynamic>))
         .cast<Billers>()
         .toList();
+    warehouses = (parsedJson['warehouses'] as List<dynamic>)
+        .map((e) => e == null ? null : Warehouses.fromJSON(e as Map<String, dynamic>))
+        .cast<Warehouses>()
+        .toList();
   }
 
-  Map<String, dynamic> toJson() => <String, dynamic>{};
+  Map<String, dynamic> toJson() => <String, dynamic>{
+        'id': id,
+        'last_ip_address': lastIpAddress,
+        'username': username,
+        'email': email,
+        'created_on': createdOn,
+        'last_login': lastLogin,
+        'active': active,
+        'first_name': firstName,
+        'last_name': lastName,
+        'company': company,
+        'phone': phone,
+        'avatar': avatar,
+        'gender': gender,
+        'group_id': groupId,
+        'warehouse_id': warehouseId,
+        'biller_id': billerId,
+        'company_id': companyId,
+        'show_cost': showCost,
+        'show_price': showPrice,
+        'award_points': awardPoints,
+        'view_right': viewRight,
+        'edit_right': editRight,
+        'allow_discount': allowDiscount,
+        'billers': billers?.map((e) => e.toJson()).toList(),
+        'warehouses': warehouses?.map((e) => e.toJson()).toList(),
+      };
 }

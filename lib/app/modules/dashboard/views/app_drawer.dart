@@ -2,10 +2,12 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:posdelivery/app/ui/components/buttons/create_drawer_body_item_btn.dart';
+import 'package:posdelivery/app/ui/components/loading/cached_image_network.dart';
 import 'package:posdelivery/app/ui/components/static/app_version_row.dart';
 import 'package:posdelivery/app/ui/theme/app_colors.dart';
 import 'package:posdelivery/app/ui/theme/styles.dart';
 import 'package:posdelivery/controllers/app_controller.dart';
+import 'package:posdelivery/models/constants.dart';
 import 'package:posdelivery/services/app_service.dart';
 
 class AppDrawer extends StatefulWidget {
@@ -31,17 +33,23 @@ class _AppDrawerState extends State<AppDrawer> {
                 children: [
                   UserAccountsDrawerHeader(
                     accountName: Text(
-                      'Muhsin Zyne',
+                      " ${appService.myInfoResponse.firstName} ${appService.myInfoResponse.lastName}  ",
                       style: kBaseTextStyle.copyWith(fontFamily: arabic),
                     ),
                     accountEmail: Text(
-                      'muhsin.3009@gmail.com',
+                      " ${appService.myInfoResponse.email} ",
                       style: kBaseTextStyle.copyWith(fontFamily: english, fontSize: 14),
                     ),
                     currentAccountPicture: CircleAvatar(
-                      radius: 30,
-                      backgroundColor: Colors.black,
-                      //backgroundImage: MemoryImage(appService.employeeInfo.userInfo?.profileImage ?? dummyBytes),
+                      radius: 45,
+                      backgroundColor: Colors.white,
+                      child: ClipOval(
+                        child: appService.myInfoResponse.avatar == null
+                            ? Image.asset('assets/images/man.png')
+                            : CCachedNetworkImage(
+                                imageUrl: '${appService.saasCdnUrl}${Constants.avatarLocation}/${appService.myInfoResponse.avatar}',
+                              ),
+                      ),
                     ),
                     decoration: BoxDecoration(
                       color: AppColors.primary,

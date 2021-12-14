@@ -45,6 +45,7 @@ class LicenceScreenController extends BaseGetXController implements ILicenceScre
     if (lvR.api != null) {
       print(lvR);
       appService.appServer = lvR.api.toString();
+      appService.appPrefix = lvR.appPrefix.toString();
       Get.snackbar(
         'verified'.tr,
         'licence_verified_please_login_your_account'.tr,

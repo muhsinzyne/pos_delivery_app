@@ -2,15 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:posdelivery/app/config/flavor/src/flavor.dart';
 import 'package:posdelivery/app/modules/auth/contracts.dart';
-import 'package:posdelivery/app/routes/app_pages.dart';
 import 'package:posdelivery/app/ui/components/ui_notification.dart';
-import 'package:posdelivery/models/constants.dart';
+import 'package:posdelivery/controllers/base_controller.dart';
 import 'package:posdelivery/models/requests/auth/login_request.dart';
 import 'package:posdelivery/models/response/auth/login_response.dart';
-import 'package:posdelivery/providers/data/auth_data_provider.dart';
 import 'package:posdelivery/services/app_service.dart';
 
-class LoginScreenController extends GetxController implements ILoginController {
+class LoginScreenController extends BaseGetXController implements ILoginController {
   //TODO: Implement LoginController
 
   final loginFormKey = GlobalKey<FormState>();
@@ -22,8 +20,6 @@ class LoginScreenController extends GetxController implements ILoginController {
   final isRememberMeInput = RxBool(true);
   final hidePassword = RxBool(true);
   final AppService _appService = Get.find<AppService>();
-
-  AuthDataProvider authDataProvider = Get.find<AuthDataProvider>();
 
   @override
   void onInit() {
@@ -52,15 +48,13 @@ class LoginScreenController extends GetxController implements ILoginController {
   void onLoginDone(LoginResponse loginResponse) async {
     //TODO: save token information from login response
     _appService.authToken = loginResponse.data?.token.toString() ?? '';
+    super.validateToken();
     Get.snackbar(
       'success'.tr,
       'login_success'.tr,
       colorText: Colors.white,
       backgroundColor: Colors.green,
     );
-    UINotification.hideLoading();
-    await Future.delayed(Constants.oneSecDuration);
-    Get.toNamed(Routes.dashboard);
   }
 
   @override

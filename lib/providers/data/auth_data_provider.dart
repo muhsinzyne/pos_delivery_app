@@ -5,6 +5,7 @@ import 'package:posdelivery/app/modules/auth/contracts.dart';
 import 'package:posdelivery/app/modules/contracts.dart';
 import 'package:posdelivery/app/modules/dashboard/contracts.dart';
 import 'package:posdelivery/app/modules/splash/contracts.dart';
+import 'package:posdelivery/app/ui/components/ui_notification.dart';
 import 'package:posdelivery/models/requests/auth/login_request.dart';
 import 'package:posdelivery/models/requests/auth/validate_licence.dart';
 import 'package:posdelivery/models/response/auth/licence_validation_response.dart';
@@ -74,6 +75,7 @@ class AuthDataProvider extends BaseDataProvider {
     final obs = network.get(NetworkURL.myInfo).asStream();
     obs.listen(
       (data) {
+        UINotification.hideLoading();
         try {
           MyInfoResponse myInfo = MyInfoResponse.fromJSON(data.data);
           bCtrl.onTokenValid(myInfo);
@@ -82,6 +84,7 @@ class AuthDataProvider extends BaseDataProvider {
         }
       },
       onError: (err) {
+        UINotification.hideLoading();
         if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
           bCtrl.onLoadTokenInvalid();
         }

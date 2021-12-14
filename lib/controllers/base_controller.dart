@@ -62,7 +62,6 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
   @override
   void validateToken() {
     authDataProvider.getProfileInfo();
-    //onTokenValid();
   }
 
   @override
@@ -103,7 +102,11 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
   @override
   void onValidLicence() async {
     String? apiUrl = localStorage.getString(Constants.appServer);
+    String? appPrefix = localStorage.getString(Constants.appPrefix);
     FlavorConfig.instance.flavorValues.api = apiUrl.toString();
+    FlavorConfig.instance.flavorValues.appPrefix = appPrefix.toString();
+    print("\n \n \n ");
+    print(appPrefix);
     validateLogin();
   }
 }
