@@ -76,15 +76,14 @@ class AuthDataProvider extends BaseDataProvider {
       (data) {
         try {
           MyInfoResponse myInfo = MyInfoResponse.fromJSON(data.data);
-          print(myInfo);
+          bCtrl.onTokenValid(myInfo);
         } on Exception catch (e) {
-          print(e);
-          //bCtrl.onLoadTokenInvalid();
+          bCtrl.onLoadTokenInvalid();
         }
       },
       onError: (err) {
         if (err.response?.statusCode == StatusCodes.status401Unauthorized) {
-          //bCtrl.onLoadTokenInvalid();
+          bCtrl.onLoadTokenInvalid();
         }
       },
     );

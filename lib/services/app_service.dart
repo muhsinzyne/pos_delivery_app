@@ -3,12 +3,14 @@ import 'package:package_info/package_info.dart';
 import 'package:posdelivery/models/app_languages.dart';
 import 'package:posdelivery/models/constants.dart';
 import 'package:posdelivery/models/response/auth/employee_info.dart';
+import 'package:posdelivery/models/response/auth/my_info_response.dart';
 import 'package:posdelivery/services/base/get_x_service.dart';
 import 'package:posdelivery/services/storage/local_storage_service.dart';
 
 class AppService extends BaseGetXService {
   PackageInfo? packageInfo;
   late EmployeeInfo employeeInfo;
+  late MyInfoResponse myInfoResponse;
   LocalStorage localStorage = Get.find<LocalStorage>();
   final _authToken = RxString('');
   final _isLastLoggedIn = RxBool(false);

@@ -6,6 +6,7 @@ import 'package:posdelivery/app/routes/app_pages.dart';
 import 'package:posdelivery/controllers/app_controller.dart';
 import 'package:posdelivery/models/constants.dart';
 import 'package:posdelivery/models/response/auth/employee_info.dart';
+import 'package:posdelivery/models/response/auth/my_info_response.dart';
 import 'package:posdelivery/providers/data/auth_data_provider.dart';
 import 'package:posdelivery/services/app_service.dart';
 import 'package:posdelivery/services/storage/local_storage_service.dart';
@@ -65,13 +66,16 @@ class BaseGetXController extends GetxController implements IBaseGetXController {
   }
 
   @override
-  void onTokenValid() async {
+  void onTokenValid(MyInfoResponse myInfoResponse) async {
+    appService.myInfoResponse = myInfoResponse;
     await Future.delayed(Constants.smallDuration);
     Get.offNamed(Routes.dashboard);
   }
 
   @override
   void validateLicence() async {
+    //appService.appServer = Constants.none;
+    //appService.authToken = Constants.none;
     if (localStorage.isAppServer) {
       onValidLicence();
     } else {

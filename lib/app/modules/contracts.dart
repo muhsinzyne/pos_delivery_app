@@ -1,4 +1,5 @@
 import 'package:posdelivery/models/response/auth/employee_info.dart';
+import 'package:posdelivery/models/response/auth/my_info_response.dart';
 
 abstract class IBaseGetXController {
   void onLoadTokenValid(EmployeeInfo employeeInfo);
@@ -9,5 +10,5 @@ abstract class IBaseGetXController {
   void onInvalidLicence();
   void onValidLicence();
 
-  void onTokenValid();
+  void onTokenValid(MyInfoResponse myInfo);
 }

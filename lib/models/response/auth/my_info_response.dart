@@ -1,3 +1,6 @@
+import 'package:posdelivery/models/response/pos/billers.dart';
+import 'package:posdelivery/models/response/pos/warehouse.dart';
+
 class MyInfoResponse {
   String? id;
   String? lastIpAddress;
@@ -6,23 +9,25 @@ class MyInfoResponse {
   String? email;
   String? createdOn;
   String? lastLogin;
-  bool? active;
+  String? active;
   String? firstName;
   String? lastName;
   String? company;
   String? phone;
   String? avatar;
   String? gender;
-  num? groupId;
-  num? warehouseId;
-  num? billerId;
-  num? companyId;
-  bool? showCost;
-  bool? showPrice;
-  num? awardPoints;
-  bool? viewRight;
-  bool? editRight;
-  bool? allowDiscount;
+  String? groupId;
+  String? warehouseId;
+  String? billerId;
+  String? companyId;
+  String? showCost;
+  String? showPrice;
+  String? awardPoints;
+  String? viewRight;
+  String? editRight;
+  String? allowDiscount;
+  List<Billers>? billers;
+  List<Warehouses>? warehouses;
 
   MyInfoResponse();
   MyInfoResponse.fromJSON(Map<String, dynamic> parsedJson) {
@@ -33,23 +38,27 @@ class MyInfoResponse {
     email = parsedJson['email'];
     createdOn = parsedJson['created_on'];
     lastLogin = parsedJson['last_login'];
-    active = parsedJson['active'] as bool;
+    active = parsedJson['active'];
     firstName = parsedJson['first_name'];
     lastName = parsedJson['last_name'];
     company = parsedJson['company'];
     phone = parsedJson['phone'];
     avatar = parsedJson['avatar'];
     gender = parsedJson['gender'];
-    groupId = parsedJson['group_id'] as num;
-    warehouseId = parsedJson['warehouse_id'] as num;
-    billerId = parsedJson['biller_id'] as num;
-    companyId = parsedJson['company_id'] as num;
-    showCost = parsedJson['show_cost'] as bool;
-    showPrice = parsedJson['show_price'] as bool;
-    awardPoints = parsedJson['award_points'] as num;
-    viewRight = parsedJson['view_right'] as bool;
-    editRight = parsedJson['edit_right'] as bool;
-    allowDiscount = parsedJson['allow_discount'] as bool;
+    groupId = parsedJson['group_id'];
+    warehouseId = parsedJson['warehouse_id'];
+    billerId = parsedJson['biller_id'];
+    companyId = parsedJson['company_id'];
+    showCost = parsedJson['show_cost'];
+    showPrice = parsedJson['show_price'];
+    awardPoints = parsedJson['award_points'];
+    viewRight = parsedJson['view_right'];
+    editRight = parsedJson['edit_right'];
+    allowDiscount = parsedJson['allow_discount'];
+    billers = (parsedJson['billers'] as List<dynamic>)
+        .map((e) => e == null ? null : Billers.fromJSON(e as Map<String, dynamic>))
+        .cast<Billers>()
+        .toList();
   }
 
   Map<String, dynamic> toJson() => <String, dynamic>{};
